@@ -3,6 +3,7 @@ import { useCalculator } from './hooks/useCalculator'
 import { CenterEditor } from './components/CenterEditor'
 import { ResultPanel } from './components/ResultPanel'
 import { formatMxn } from './lib/format'
+import audantraLogo from './assets/audantra-logo.png'
 
 export default function App() {
   const calc = useCalculator()
@@ -11,11 +12,22 @@ export default function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="https://audantra.com" target="_blank" rel="noreferrer">
-          <span className="brand-mark">A</span>
-          <span>
-            <span className="brand-name">Audantra</span>
-            <div className="brand-sub">Legal tech · NOM-035</div>
+        <a
+          className="brand"
+          href="https://audantra.com"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Audantra — Legal tech · NOM-035"
+        >
+          <img
+            className="brand-logo"
+            src={audantraLogo}
+            alt=""
+            width={160}
+            height={35}
+          />
+          <span className="brand-sub" aria-hidden="true">
+            Legal tech · NOM-035
           </span>
         </a>
         <div className="topbar-actions">
