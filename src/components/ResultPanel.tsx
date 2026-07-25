@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { LEGAL } from '../lib/constants'
+import { LEGAL, TECHO_FOOTNOTE } from '../lib/constants'
 import type { CalculatorInput, FullResult } from '../lib/engine'
 import { tierLabel } from '../lib/engine'
 import { formatMxn } from '../lib/format'
@@ -59,10 +59,12 @@ export function ResultPanel({ input, result }: Props) {
             <b>{formatMxn(probable.total)}</b>
           </div>
           <div className="scenario-chip">
-            <small>Techo</small>
+            <small>Techo · máx. teórico</small>
             <b>{formatMxn(techo.total)}</b>
           </div>
         </div>
+
+        <p className="techo-footnote">{TECHO_FOOTNOTE}</p>
 
         <div className="actions-bar">
           <button

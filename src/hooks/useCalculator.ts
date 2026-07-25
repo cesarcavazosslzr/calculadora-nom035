@@ -5,6 +5,7 @@ import {
   createDefaultInput,
   getTier,
   applicableNumerals,
+  remapBreachesForTier,
   type CalculatorInput,
   type CenterInput,
 } from '../lib/engine'
@@ -35,9 +36,9 @@ export function useCalculator() {
         if (c.id !== id) return c
         const next = { ...c, ...patch }
         if (patch.workers !== undefined) {
-          const tier = getTier(next.workers)
-          const allowed = new Set(applicableNumerals(tier).map((n) => n.id))
-          next.breached = next.breached.filter((b) => allowed.has(b))
+          const fromTier = getTier(c.workers)
+          const toTier = getTier(next.workers)
+          next.breached = remapBreachesForTier(next.breached, fromTier, toTier)
           next.exposedWorkers = Math.min(next.exposedWorkers, next.workers)
         }
         return next

@@ -98,3 +98,7 @@ export const LEGAL = {
 } as const
 
 export const AUDANTRA_COST_DEFAULT = 180_000
+
+/** Nota al pie del escenario techo (interpretación máxima Art. 992). */
+export const TECHO_FOOTNOTE =
+  'El techo asume que cada obligación afecta a todos los trabajadores (Art. 992), interpretación máxima.'

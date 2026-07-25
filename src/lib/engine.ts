@@ -91,6 +91,33 @@ export function applicableNumerals(tier: Tier): NumeralDef[] {
   return NUMERALS.filter((n) => n.tiers.includes(tier))
 }
 
+/**
+ * Al cruzar 16–50 ↔ >50, 5.2 y 5.3 son equivalentes funcionales
+ * (identificación/análisis de factores). Auto-mapea para no perder la marca.
+ */
+export function remapBreachesForTier(
+  breached: NumeralId[],
+  fromTier: Tier,
+  toTier: Tier,
+): NumeralId[] {
+  if (fromTier === toTier) return breached
+
+  let next = [...breached]
+
+  if (fromTier === '16to50' && toTier === 'gt50' && next.includes('5.2')) {
+    next = next.filter((id) => id !== '5.2')
+    if (!next.includes('5.3')) next.push('5.3')
+  }
+
+  if (fromTier === 'gt50' && toTier === '16to50' && next.includes('5.3')) {
+    next = next.filter((id) => id !== '5.3')
+    if (!next.includes('5.2')) next.push('5.2')
+  }
+
+  const allowed = new Set(applicableNumerals(toTier).map((n) => n.id))
+  return next.filter((id) => allowed.has(id))
+}
+
 function resolveNature(
   def: NumeralDef,
   overrides: Partial<Record<NumeralId, Nature>>,
@@ -191,7 +218,7 @@ function scenarioMeta(key: ScenarioKey): Pick<ScenarioResult, 'label' | 'descrip
     return {
       label: 'Techo legal',
       description:
-        'Límite estatutario: 5,000 UMA × plantilla × reincidencia. Contexto máximo teórico, no promesa.',
+        'Máximo teórico: 5,000 UMA × plantilla en toda obligación × reincidencia. No es promesa.',
     }
   }
   return {

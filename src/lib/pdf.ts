@@ -1,6 +1,6 @@
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
-import { UMA_VIGENCIA } from './constants'
+import { TECHO_FOOTNOTE, UMA_VIGENCIA } from './constants'
 import type { CalculatorInput, FullResult } from './engine'
 import { tierLabel } from './engine'
 import { formatMxn } from './format'
@@ -41,8 +41,12 @@ export function downloadReport(input: CalculatorInput, result: FullResult) {
     14,
     64,
   )
+  const techoNote = doc.splitTextToSize(`* ${TECHO_FOOTNOTE}`, 182)
+  doc.setFontSize(7)
+  doc.setTextColor(106, 79, 203)
+  doc.text(techoNote, 14, 69)
 
-  let y = 74
+  let y = 69 + techoNote.length * 3.5 + 6
   for (const center of result.probable.centers) {
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(11)
